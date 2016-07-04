@@ -160,6 +160,7 @@ function MdAutocomplete ($$mdSvgRegistry) {
       textChange:       '&?mdSearchTextChange',
       minLength:        '=?mdMinLength',
       delay:            '=?mdDelay',
+      showIcon:         '=?mdShowIcon',
       autofocus:        '=?mdAutofocus',
       floatingLabel:    '@?mdFloatingLabel',
       autoselect:       '=?mdAutoselect',
@@ -189,7 +190,9 @@ function MdAutocomplete ($$mdSvgRegistry) {
 
       return '\
         <md-autocomplete-wrap\
-            ng-class="{ \'md-whiteframe-z1\': !floatingLabel, \'md-menu-showing\': !$mdAutocompleteCtrl.hidden }">\
+            layout="row"\
+            ng-class="{ \'md-whiteframe-z1\': !floatingLabel, \'md-menu-showing\': !$mdAutocompleteCtrl.hidden, \'md-active\': ($mdAutocompleteCtrl.scope.searchText.length > 0 || $mdAutocompleteCtrl.isOnFocus()), \'md-show-icon\': showIcon  }">\
+            <md-icon ng-click="$mdAutocompleteCtrl.focusElement()" class="search-icon" ng-if="showIcon">search</md-icon>\
           ' + getInputElement() + '\
           <md-progress-linear\
               class="' + (attr.mdFloatingLabel ? 'md-inline' : '') + '"\
@@ -301,7 +304,7 @@ function MdAutocomplete ($$mdSvgRegistry) {
                 tabindex="-1"\
                 ng-if="$mdAutocompleteCtrl.scope.searchText && !$mdAutocompleteCtrl.isDisabled"\
                 ng-click="$mdAutocompleteCtrl.clear($event)">\
-              <md-icon md-svg-src="' + $$mdSvgRegistry.mdClose + '"></md-icon>\
+              <md-icon>close</md-icon>\
               <span class="md-visually-hidden">Clear</span>\
             </button>\
                 ';

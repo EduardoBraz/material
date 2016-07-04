@@ -46,6 +46,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
   ctrl.keydown                       = keydown;
   ctrl.blur                          = blur;
   ctrl.focus                         = focus;
+  ctrl.isOnFocus                      = isOnFocus;
   ctrl.clear                         = clearValue;
   ctrl.select                        = select;
   ctrl.listEnter                     = onListEnter;
@@ -57,6 +58,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
   ctrl.notFoundVisible               = notFoundVisible;
   ctrl.loadingIsVisible              = loadingIsVisible;
   ctrl.positionDropdown              = positionDropdown;
+  ctrl.focusElement                  = focusElement;
 
   return init();
 
@@ -72,9 +74,11 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     $mdUtil.nextTick(function () {
       gatherElements();
       moveDropdown();
-      focusElement();
+      if ($scope.autofocus) focusElement();
       $element.on('focus', focusElement);
     });
+
+    ctrl.scope.showIcon = ctrl.scope.showIcon || false;
   }
 
   function updateModelValidators() {
@@ -167,7 +171,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    * Sends focus to the input element.
    */
   function focusElement () {
-    if ($scope.autofocus) elements.input.focus();
+    elements.input.focus();
   }
 
   /**
@@ -245,6 +249,15 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     }
     return obj;
   }
+
+  /**
+   * Return hasFocus property
+   * @returns boolean
+   */
+  function isOnFocus () {
+    return hasFocus;
+  }
+
 
   //-- event/change handlers
 
